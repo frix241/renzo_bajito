@@ -11,47 +11,28 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Conference Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
+\title{Autonomous Data Modeling: Multi-Agent Systems for 3NF Normalization and Schema Generation\\
+{\footnotesize Modelado de Datos Autónomo: Sistemas Multi-Agente para Normalización 3NF y Generación de Esquemas}
 }
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\author{\IEEEauthorblockN{1\textsuperscript{st} Alberth Edwar Riveros Vilca}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingeniería de Sistemas} \\
+	\textit{Universidad Nacional de San Agustín}\\
+	Arequipa, Peru \\
+	ariverosv@unsa.edu.pe}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{2\textsuperscript{nd} Renzo Geomar Mamani Quispe}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingeniería de Sistemas} \\
+	\textit{Universidad Nacional de San Agustín}\\
+	Arequipa, Peru \\
+	remamaniq@unsa.edu.pe}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{3\textsuperscript{rd} Antonio Arroyo Paz}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingeniería de Sistemas} \\
+	\textit{Universidad Nacional de San Agustín}\\
+	Arequipa, Peru \\
+	aarroyop@unsa.edu.pe}
+
 }
 
 \maketitle
@@ -63,12 +44,21 @@ or Math in Paper Title or Abstract.
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+autonomous agents, multi-agent systems, database normalization, third normal form (3NF), schema generation, data dictionary, large language models (LLMs), PostgreSQL.
 \end{IEEEkeywords}
 
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits. 
+The design of relational databases consists of translating business requirements, usually expressed in natural language, into a physical schema able to support system operation with guarantees of integrity, consistency, and performance. The foundations of this process were established by Codd with the relational model \cite{codd1970} and consolidated through the formal definition of functional dependencies and normal forms \cite{codd1971}, while the entity-relationship model \cite{chen1976} provided the semantic bridge between the real world and the logical structure. Within this framework, achieving the Third Normal Form (3NF) is not a cosmetic goal: it eliminates insertion, update, and deletion anomalies and enables the construction of coherent, traceable data dictionaries.
+
+In practice, however, professional workflows fall short of this ideal. From requirements gathering to DDL code authoring, the designer must identify entities and attributes, determine functional dependencies, detect transitive dependencies, decompose relations, and document every column in a data dictionary. Each of these stages is prone to human error, and commercial CASE tools such as TOAD Data Modeler assist graphical representation and partial code generation but do not automate the semantic decision that guarantees normalization. In complex specifications ---with dozens of entities, composite keys, and chains of transitive dependencies--- cognitive load and schedule pressure yield schemas that violate 3NF, accumulate redundancy disguised as performance, and produce incoherent data dictionaries whose cost is deferred to production-time migrations and fixes.
+
+The emergence of large language models (LLMs) has opened a promising avenue for automating this life cycle. Recent work has shown that LLMs can derive conceptual models and preliminary schemas from natural-language specifications \cite{dicaro2026}, and that multi-agent architectures can generate high-quality relational schemas from requirements \cite{wang2025schemaagent}. At the same time, the literature documents clear limits: Kohita \cite{kohita2025} showed that the normalization level of a schema systematically affects the accuracy with which LLMs generate SQL; Kanchinadam \textit{et al.} \cite{kanchinadam2026} demonstrated that structurally different variants of the same conceptual model produce divergent answers in Text-to-SQL tasks; and ERBench \cite{oh2024erbench} provided evidence that LLMs commit logical errors when inferring relationships among entities, even in simple schemas. These findings converge on a conclusion: reliable schema generation cannot be delegated to a single prompt; it requires explicit and continuous verification of functional dependencies.
+
+In the multi-agent realm, contemporary evidence confirms that specializing roles reduces logical errors. AttributeForge \cite{huang2025attributeforge} orchestrates 43 specialized agents to model product schemas in production, while GalaxyWeaver \cite{tong2025galaxyweaver} shows that an agent ecosystem can iteratively evaluate a deficient schema and autonomously restructure it until an optimal state is reached. These antecedents suggest that the same strategy can be applied to the relational normalization problem, provided that an agent is devoted to auditing the mathematical dependencies that underlie the schema.
+
+This article presents an empirical framework for autonomous data modeling composed of specialized agents: an analyst agent extracts entities, attributes, and relations from the requirements text; a generator agent builds the data dictionary; a coding agent authors the DDL code for PostgreSQL; and an orchestrator agent evaluates the functional dependencies and iterates over the schema until compliance with 3NF is demonstrated before the final DDL is emitted. The contributions of the article are: (i) the definition of a multi-agent architecture with separated cognitive roles for requirements extraction, documentation, and coding, audited by a dependency verifier; (ii) a verification protocol that operates under Codd's formal normalization criteria \cite{codd1971} as the success metric; (iii) an empirical evaluation on complex real-world specifications measuring the system's success rate in producing anomaly-free 3NF schemas; and (iv) a quantitative comparison of design time against the manual process using TOAD Data Modeler.
+
+The remainder of this article is organized as follows. Section~II presents the normalization theoretical framework that supports the system. Section~III describes the framework architecture and the interaction protocols among agents. Section~IV details the experimental protocol and test cases. Section~V analyzes the obtained results, and Section~VI provides the conclusions.
 
 \section{Ease of Use}
 
@@ -273,6 +263,16 @@ For papers published in translation journals, please give the English
 citation first, followed by the original foreign-language citation \cite{b6}.
 
 \begin{thebibliography}{00}
+\bibitem{codd1970} E. F. Codd, ``A relational model of data for large shared data banks,'' Commun. ACM, vol. 13, no. 6, pp. 377--387, Jun. 1970.
+\bibitem{codd1971} E. F. Codd, ``Further normalization of the data base relational model,'' in Data Base Systems, R. Rustin, Ed. Englewood Cliffs, NJ, USA: Prentice-Hall, 1971, pp. 33--64.
+\bibitem{chen1976} P. P.-S. Chen, ``The entity-relationship model---toward a unified view of data,'' ACM Trans. Database Syst., vol. 1, no. 1, pp. 9--36, Mar. 1976.
+\bibitem{dicaro2026} L. Di Caro, A. Rapp, V. Sugumaran, and F. Meziane, ``From natural language to knowledge: The role of LLMs in conceptual and data modeling,'' Data Knowl. Eng., vol. 163, art. no. 102567, May 2026.
+\bibitem{wang2025schemaagent} Q. Wang \textit{et al.}, ``SchemaAgent: A multi-agents framework for generating relational database schema,'' arXiv:2503.23886, 2025.
+\bibitem{kohita2025} R. Kohita, ``Exploring database normalization effects on SQL generation,'' in Proc. 34th ACM Int. Conf. Inf. Knowl. Manage. (CIKM), 2025, pp. 5788--5796.
+\bibitem{kanchinadam2026} N. Kanchinadam, A. Menachery, and A. Deshpande, ``Same data, different schemas: Robustness of LLM-based Text-to-SQL,'' in Proc. 9th Int. Workshop Exploiting Artif. Intell. Tech. Data Manage. (aiDM), 2026.
+\bibitem{oh2024erbench} J. Oh, S. Kim, J. Seo, J. Wang, R. Xu, X. Xie, and S. E. Whang, ``ERBench: An entity-relationship based automatically verifiable hallucination benchmark for large language models,'' in Adv. Neural Inf. Process. Syst. (NeurIPS), vol. 37, 2024, Datasets and Benchmarks Track.
+\bibitem{huang2025attributeforge} Y. Huang \textit{et al.}, ``AttributeForge: An agentic LLM framework for automated product schema modeling,'' in Proc. Conf. Empirical Methods Natural Language Process. (EMNLP), Industry Track, 2025, pp. 2106--2121.
+\bibitem{tong2025galaxyweaver} B. Tong, Y. Zhou, C. Zhang, J. Tang, J. Li, and L. Chen, ``GalaxyWeaver: Autonomous table-to-graph conversion and schema optimization with large language models,'' Proc. VLDB Endowment, vol. 18, no. 12, pp. 5100--5112, 2025.
 \bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
 \bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
 \bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
